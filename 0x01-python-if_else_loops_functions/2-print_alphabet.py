@@ -1,2 +1,6 @@
 #!/usr/bin/python3
-print(''.join(chr(i) for i in range(97, 123)), end='')
+import string
+
+lowercase_alphabet = string.ascii_lowercase
+
+print(lowercase_alphabet, end='')
