@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-#!/usr/bin/python3
-
 import sys
 
 if __name__ == "__main__":
@@ -15,5 +13,5 @@ if __name__ == "__main__":
     else:
         print(f"{count} arguments:")
 
-    for i, arg in enumerate(args, start=1):
+    for i, arg in enumerat(args, start=1):
         print(f"{i}: {arg}")
