@@ -17,6 +17,7 @@ def list_all_states(username, password, database_name):
         cursor = db.cursor()
 
         query = 'SELECT * FROM states ORDER BY id ASC'
+        
         cursor.execte(query)
 
         states = cursor.fetchall()
@@ -31,7 +32,7 @@ def list_all_states(username, password, database_name):
             print('MySQL Error {}: {}'.format(e.args[0], e.args[1]))
             sys.exit(1)
 
-        is __name__ == '__main__':
+        if __name__ == '__main__':
             if len(sys.argv) != 4:
                 print('Usage: {} <username> <password> <database_name>'.format(sys.argv[0]))
                 sys.exit(1)
