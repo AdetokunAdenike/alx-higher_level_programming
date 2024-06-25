@@ -1,45 +1,37 @@
 #!/usr/bin/python3
-""" A script that lists all states from the database hbtn_0e_0_usa in ascending order by states.id
+"""
+Lists all states from the database hbtn_0e_0_usa sorted in ascending order by
+states.id
 """
 import MySQLdb
 import sys
 
-def list_all_states(username, password, database_name):
-    
+
+if __name__ == "__main__":
+    mysql_username = sys.argv[1]
+    mysql_password = sys.argv[2]
+    db_name = sys.argv[3]
+
     try:
-        db_conn = MySQLdb.connect(
-                host="localhost",
-                port=3306,
-                user=username,
-                passwd=password,
-                db=database_name
-                charset="utf8"
-                )
-        cursor = db_conn.cursor()
+        conn = MySQLdb.connect(
+            host="localhost",
+            port=3306,
+            user=mysql_username,
+            passwd=mysql_password,
+            db=db_name,
+            charset="utf8"
+        )
+    except MySQLdb.Error as e:
+        print("Error connecting to database: {}".format(e))
+        sys.exit(1)
 
-        query = "SELECT * FROM states ORDER BY id ASC"
-        
-        cursor.execute(query)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM states ORDER BY id ASC")
+    rows = cur.fetchall()
 
-        states = cursor.fetchall()
+    for row in rows:
+        print(row)
 
-        for state in states:
-            print(state)
+    cur.close()
+    conn.close()
 
-            cursor.close()
-            db_conn.close()
-
-        except MySQLdb.Error as e:
-            print("MySQL Error: {}".format(e))
-            sys.exit(1)
-
-        if __name__ == "__main__":
-            if len(sys.argv) != 4:
-                print("Usage: {sys.argv[0]} <mysql_username> <mysql_password> <database_name>")
-                sys.exit(1)
-
-        mysql_username = sys.argv[1]
-        mysql_password = sys.argv[2]
-        database_name = sys.argv[3]
-
-        list_all_states(username, password, database_name)
