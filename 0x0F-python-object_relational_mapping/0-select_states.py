@@ -7,16 +7,17 @@ import sys
 def list_all_states(username, password, database_name):
     
     try:
-        db = MySQLdb.connect(
-                host='localhost',
+        db_conn = MySQLdb.connect(
+                host="localhost",
                 port=3306,
                 user=username,
                 passwd=password,
                 db=database_name
+                charset="utf8"
                 )
-        cursor = db.cursor()
+        cursor = db_conn.cursor()
 
-        query = 'SELECT * FROM states ORDER BY id ASC'
+        query = "SELECT * FROM states ORDER BY id ASC"
         
         cursor.execute(query)
 
@@ -26,19 +27,19 @@ def list_all_states(username, password, database_name):
             print(state)
 
             cursor.close()
-            db.close()
+            db_conn.close()
 
         except MySQLdb.Error as e:
-            print('MySQL Error {}: {}'.format(e.args[0], e.args[1]))
+            print("MySQL Error: {}".format(e))
             sys.exit(1)
 
-        if __name__ == '__main__':
+        if __name__ == "__main__":
             if len(sys.argv) != 4:
-                print('Usage: {} <username> <password> <database_name>'.format(sys.argv[0]))
+                print("Usage: {sys.argv[0]} <mysql_username> <mysql_password> <database_name>")
                 sys.exit(1)
 
-        username = sys.argv[1]
-        password = sys.argv[2]
+        mysql_username = sys.argv[1]
+        mysql_password = sys.argv[2]
         database_name = sys.argv[3]
 
         list_all_states(username, password, database_name)
