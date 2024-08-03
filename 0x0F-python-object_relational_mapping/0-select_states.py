@@ -8,6 +8,10 @@ import sys
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 4:
+        print("Usage: {} <mysql_username> <mysql_password> <db_name>".format(sys.argv[0]))
+        sys.exit(1)
+
     mysql_username = sys.argv[1]
     mysql_password = sys.argv[2]
     db_name = sys.argv[3]
@@ -25,13 +29,18 @@ if __name__ == "__main__":
         print("Error connecting to database: {}".format(e))
         sys.exit(1)
 
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM states ORDER BY id ASC")
-    rows = cur.fetchall()
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM states ORDER BY id ASC")
+        rows = cur.fetchall()
 
-    for row in rows:
-        print(row)
+        for row in rows:
+            print(row)
 
-    cur.close()
-    conn.close()
+        cur.close()
+        conn.close()
+    except MySQLdb.Error as e:
+        print("Error executing query: {}".format(e))
+    except Exception as e:
+        print("An unexpected error occurred: {}".format(e))
 
